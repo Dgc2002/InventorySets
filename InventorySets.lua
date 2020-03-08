@@ -1,16 +1,8 @@
 --[[
     TODO
 Cleanup OnInitialize
-Figure out how to respond to changes in a dropdown's selected value
-
-
-Filters:
-    [ ] Show Only Missing Items
-        Use ScrollTable:SetFilter
-
 ]] --
--- Interface\Buttons\UI-CheckBox-Check
--- Interface\Buttons\UI-GroupLoot-Pass-Up
+
 local LOGO_PATH = 'Interface\\AddOns\\InventorySets\\Artwork\\Logo'
 InventorySets = LibStub('AceAddon-3.0'):NewAddon('InventorySets', 'AceConsole-3.0', 'AceEvent-3.0')
 local StdUi = LibStub('StdUi');
