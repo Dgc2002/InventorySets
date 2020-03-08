@@ -133,6 +133,7 @@ function InventorySets:CreateNewSet(setName)
     return true
 end
 
+---Deletes a set if it exists
 ---@param setName string
 function InventorySets:DeleteSet(setName)
     local setNameExists = self:SetExists(setName)
@@ -324,7 +325,6 @@ function InventorySets:RemoveItemFromSet(itemId)
         end
     end
 end
-
 
 ---@param uiParent Frame
 ---@return Frame
