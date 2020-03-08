@@ -105,7 +105,7 @@ local itemCols = {
     }
 }
 
-
+---@param setName string
 function InventorySets:CreateNewSet(setName)
     local setNameExists = self:SetExists(setName)
 
@@ -129,6 +129,7 @@ function InventorySets:CreateNewSet(setName)
     self.newSetEditBox:SetText('')
 end
 
+---@param setName string
 function InventorySets:DeleteSet(setName)
     local setNameExists = self:SetExists(setName)
 
@@ -143,6 +144,8 @@ function InventorySets:DeleteSet(setName)
     self.dropdownMenu:SetOptions(setOptions)
 end
 
+---@param setName string
+---@return boolean
 function InventorySets:SetExists(setName)
     local setNames = self:GetSetNames()
     local setNameExists = false
@@ -156,6 +159,7 @@ function InventorySets:SetExists(setName)
     return setNameExists
 end
 
+---@param setName string
 function InventorySets:LoadSet(setName)
     local setNameExists = self:SetExists(setName)
 
@@ -286,6 +290,7 @@ function InventorySets:GetFilterCheckbox(uiParent)
     return onlyMissingCheckbox
 end
 
+---@param itemId number
 function InventorySets:AddItemToSet(itemId)
     local itemExists = false
     local itemData = InventorySets:getItemDataFromId(itemId)
@@ -305,6 +310,7 @@ function InventorySets:AddItemToSet(itemId)
     self.st:SetData(self.db.char.sets[self.db.char.currentSet])
 end
 
+---@param itemId number
 function InventorySets:RemoveItemFromSet(itemId)
     for i,v in ipairs(self.db.char.sets[self.db.char.currentSet]) do
         if v['itemId'] == itemId then
