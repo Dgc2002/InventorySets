@@ -1,4 +1,0 @@
-# WHY WON'T CURSEFORGE ALLOW ME TO UPLOAD THIS PROJECT WITHOUT:
-# Libs\Libs.xml
-# Libs\Libs.toc
-# ???
