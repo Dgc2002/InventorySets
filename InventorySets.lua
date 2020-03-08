@@ -106,10 +106,6 @@ local itemCols = {
 }
 
 
-function table.pack(...)
-    return { n = select("#", ...); ... }
-end
-
 function InventorySets:CreateNewSet(setName)
     local setNameExists = self:SetExists(setName)
 
