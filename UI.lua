@@ -3,7 +3,7 @@ InventorySets = addonTable
 
 local StdUi = LibStub('StdUi');
 
----@return Frame
+---@return StdUi:Window
 function InventorySets:getMainWindow()
     local window = StdUi:Window(UIParent, 500, 600, 'Inventory Sets');
     window:SetPoint('CENTER');
@@ -13,7 +13,7 @@ end
 
 ---@param window Frame
 ---@param itemCols table<number, table>
----@return Frame
+---@return StdUi:ScrollTable
 function InventorySets:getScrollingTable(window, itemCols)
     local st = StdUi:ScrollTable(window, itemCols, 14, 24);
     st:EnableSelection(true);
