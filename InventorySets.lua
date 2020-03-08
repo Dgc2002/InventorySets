@@ -28,6 +28,92 @@ InventorySets.DEFAULT_SETTINGS = {
     }
 }
 
+local itemCols = {
+    {name = 'Icon', width = 60, align = 'CENTER', index = 'icon', format = 'icon', sortable = false},
+    {
+        name = 'Item',
+        width = 250,
+        align = 'LEFT',
+        index = 'name',
+        format = 'string',
+        color = function(table, value, rowData, columnData)
+            -- @Cleanup: This is pretty sloppy but works
+            local rowColor = {r = 1, g = 0, b = 0, a = 1}
+            if rowData.isInInventory then
+                -- Color the item name RED if it is not found in inventory
+                -- Color the item name YELLOW if there are more than 0 but fewer than itemMinimum
+                if rowData.itemMinimum ~= nil and rowData.itemCount < rowData.itemMinimum then
+                    rowColor = {r = 1, g = 1, b = 0, a = 1}
+                else
+                    rowColor = {r = 0, g = 1, b = 0, a = 1}
+                end
+            end
+
+            return rowColor
+        end
+    },
+    {name = '#', width = 60, align = 'CENTER', index = 'itemCount', format = 'number'},
+    {
+        name = 'Min', width = 60, align = 'CENTER', index = 'itemMinimum', format = 'number',
+        format = function(value, rowData, columnData)
+            if value == nil then
+                return '-'
+            end
+
+            return value
+        end,
+        color = function(table, value, rowData, columnData)
+            -- Color this cell red if we have less than the minimum amount of an item
+            if rowData.itemMinimum ~= nil and rowData.itemCount < rowData.itemMinimum then
+                return {r = 1, g = 0, b = 0, a = 1}
+            end
+        end,
+        events = {
+            OnClick = function(tbl, cellFrame, rowFrame, rowData, columnData, rowIndex, button)
+                -- Create an edit box for this cell if it doesn't exist
+                if cellFrame.eBox == nil then
+                    local eBox = StdUi:SimpleEditBox(cellFrame, cellFrame:GetWidth(), cellFrame:GetHeight())
+                    StdUi:GlueTop(eBox, cellFrame, 0, 0)
+                    eBox:SetFocus()
+
+                    eBox:SetScript('OnEnterPressed', function(widget)
+                        rowData['itemMinimum'] = tonumber(widget:GetText())
+
+                        widget:ClearFocus()
+                        widget:Hide()
+                        tbl:SetData(self.db.char.sets[self.db.char.currentSet])
+                    end)
+
+                    eBox:SetScript('OnEscapePressed', function(widget)
+                        widget:ClearFocus()
+                        widget:Hide()
+                    end)
+                end
+
+            end
+        }
+    },
+    {
+        name = 'X',
+        width = 30,
+        align = 'CENTER',
+        index = 'removeItem',
+        format = 'icon',
+        sortable = false,
+        events = {
+            OnClick = function(tbl, cellFrame, rowFrame, rowData, columnData, rowIndex, button)
+                if button == 'LeftButton' then
+                    self:RemoveItemFromSet(rowData['itemId'])
+                    tbl:SetData(self.db.char.sets[self.db.char.currentSet])
+                end
+
+                return true
+            end
+        }
+    }
+}
+
+
 function table.pack(...)
     return { n = select("#", ...); ... }
 end
@@ -158,91 +244,6 @@ function InventorySets:OnInitialize()
             newSetBtn:Disable()
         end
     end)
-
-    local itemCols = {
-        {name = 'Icon', width = 60, align = 'CENTER', index = 'icon', format = 'icon', sortable = false},
-        {
-            name = 'Item',
-            width = 250,
-            align = 'LEFT',
-            index = 'name',
-            format = 'string',
-            color = function(table, value, rowData, columnData)
-                -- @Cleanup: This is pretty sloppy but works
-                local rowColor = {r = 1, g = 0, b = 0, a = 1}
-                if rowData.isInInventory then
-                    -- Color the item name RED if it is not found in inventory
-                    -- Color the item name YELLOW if there are more than 0 but fewer than itemMinimum
-                    if rowData.itemMinimum ~= nil and rowData.itemCount < rowData.itemMinimum then
-                        rowColor = {r = 1, g = 1, b = 0, a = 1}
-                    else
-                        rowColor = {r = 0, g = 1, b = 0, a = 1}
-                    end
-                end
-
-                return rowColor
-            end
-        },
-        {name = '#', width = 60, align = 'CENTER', index = 'itemCount', format = 'number'},
-        {
-            name = 'Min', width = 60, align = 'CENTER', index = 'itemMinimum', format = 'number',
-            format = function(value, rowData, columnData)
-                if value == nil then
-                    return '-'
-                end
-
-                return value
-            end,
-            color = function(table, value, rowData, columnData)
-                -- Color this cell red if we have less than the minimum amount of an item
-                if rowData.itemMinimum ~= nil and rowData.itemCount < rowData.itemMinimum then
-                    return {r = 1, g = 0, b = 0, a = 1}
-                end
-            end,
-            events = {
-                OnClick = function(tbl, cellFrame, rowFrame, rowData, columnData, rowIndex, button)
-                    -- Create an edit box for this cell if it doesn't exist
-                    if cellFrame.eBox == nil then
-                        local eBox = StdUi:SimpleEditBox(cellFrame, cellFrame:GetWidth(), cellFrame:GetHeight())
-                        StdUi:GlueTop(eBox, cellFrame, 0, 0)
-                        eBox:SetFocus()
-
-                        eBox:SetScript('OnEnterPressed', function(widget)
-                            rowData['itemMinimum'] = tonumber(widget:GetText())
-
-                            widget:ClearFocus()
-                            widget:Hide()
-                            tbl:SetData(self.db.char.sets[self.db.char.currentSet])
-                        end)
-
-                        eBox:SetScript('OnEscapePressed', function(widget)
-                            widget:ClearFocus()
-                            widget:Hide()
-                        end)
-                    end
-
-                end
-            }
-        },
-        {
-            name = 'X',
-            width = 30,
-            align = 'CENTER',
-            index = 'removeItem',
-            format = 'icon',
-            sortable = false,
-            events = {
-                OnClick = function(tbl, cellFrame, rowFrame, rowData, columnData, rowIndex, button)
-                    if button == 'LeftButton' then
-                        self:RemoveItemFromSet(rowData['itemId'])
-                        tbl:SetData(self.db.char.sets[self.db.char.currentSet])
-                    end
-
-                    return true
-                end
-            }
-        }
-    }
 
     local data = {}
     if self.db.char.currentSet ~= nil and self.db.char.sets[self.db.char.currentSet] ~= nil then
