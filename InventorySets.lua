@@ -28,7 +28,7 @@ local itemCols = {
         align = 'LEFT',
         index = 'name',
         format = 'string',
-        color = function(table, value, rowData, columnData)
+        color = function(_, _, rowData, _)
             -- @Cleanup: This is pretty sloppy but works
             local rowColor = {r = 1, g = 0, b = 0, a = 1}
             if rowData.isInInventory then
@@ -47,21 +47,21 @@ local itemCols = {
     {name = '#', width = 60, align = 'CENTER', index = 'itemCount', format = 'number'},
     {
         name = 'Min', width = 60, align = 'CENTER', index = 'itemMinimum', format = 'number',
-        format = function(value, rowData, columnData)
+        format = function(value, _, _)
             if value == nil then
                 return '-'
             end
 
             return value
         end,
-        color = function(table, value, rowData, columnData)
+        color = function(_, _, rowData, _)
             -- Color this cell red if we have less than the minimum amount of an item
             if rowData.itemMinimum ~= nil and rowData.itemCount < rowData.itemMinimum then
                 return {r = 1, g = 0, b = 0, a = 1}
             end
         end,
         events = {
-            OnClick = function(tbl, cellFrame, rowFrame, rowData, columnData, rowIndex, button)
+            OnClick = function(tbl, cellFrame, _, rowData, _, _, _)
                 -- Create an edit box for this cell if it doesn't exist
                 if cellFrame.eBox == nil then
                     local eBox = StdUi:SimpleEditBox(cellFrame, cellFrame:GetWidth(), cellFrame:GetHeight())
@@ -93,7 +93,7 @@ local itemCols = {
         format = 'icon',
         sortable = false,
         events = {
-            OnClick = function(tbl, cellFrame, rowFrame, rowData, columnData, rowIndex, button)
+            OnClick = function(tbl, _, _, rowData, _, _, button)
                 if button == 'LeftButton' then
                     self:RemoveItemFromSet(rowData['itemId'])
                     tbl:SetData(self.db.char.sets[self.db.char.currentSet])
@@ -153,7 +153,7 @@ function InventorySets:SetExists(setName)
     local setNames = self:GetSetNames()
     local setNameExists = false
 
-    for i,v in ipairs(setNames) do
+    for _,v in ipairs(setNames) do
         if v == setName then
             setNameExists = true
         end
@@ -207,7 +207,7 @@ function InventorySets:OnInitialize()
     dropdownMenu:SetPlaceholder('-- Please Select --');
     StdUi:GlueTop(dropdownMenu, window, 0, -50, 'CENTER');
 
-    dropdownMenu.OnValueChanged = function(widget, value)
+    dropdownMenu.OnValueChanged = function(_, value)
         self:LoadSet(value)
     end
 
@@ -216,7 +216,7 @@ function InventorySets:OnInitialize()
     self.newSetEditBox = newSetEditBox
     StdUi:GlueBelow(newSetEditBox, dropdownMenu, -110, -10)
 
-    newSetEditBox:SetScript('OnEnterPressed', function(widget)
+    newSetEditBox:SetScript('OnEnterPressed', function(_)
         self:CreateNewSet(self.newSetEditBox:GetText())
     end)
 
@@ -224,7 +224,7 @@ function InventorySets:OnInitialize()
     local newSetBtn = StdUi:Button(window, 100, 24, 'New Set')
     StdUi:GlueAfter(newSetBtn, newSetEditBox, 20, 0)
 
-    newSetBtn:SetScript('OnClick', function(widget)
+    newSetBtn:SetScript('OnClick', function(_)
         self:CreateNewSet(self.newSetEditBox:GetText())
     end)
 
@@ -269,9 +269,9 @@ end
 function InventorySets:GetFilterCheckbox(uiParent)
     local onlyMissingCheckbox = StdUi:Checkbox(uiParent, 'Only show missing items')
 
-    onlyMissingCheckbox.OnValueChanged = function(widget, state, value)
+    onlyMissingCheckbox.OnValueChanged = function(_, state, _)
         if state then
-            self.st.Filter = function(tbl, rowData)
+            self.st.Filter = function(_, rowData)
                 if rowData.itemCount == 0 then
                     return true
                 end
@@ -283,7 +283,7 @@ function InventorySets:GetFilterCheckbox(uiParent)
                 return false
             end
         else
-            self.st.Filter = function(tbl, rowData)
+            self.st.Filter = function(_, _)
                 return true
             end
         end
@@ -300,7 +300,7 @@ function InventorySets:AddItemToSet(itemId)
     local itemExists = false
     local itemData = InventorySets:getItemDataFromId(itemId)
 
-    for k,v in pairs(self.db.char.sets[self.db.char.currentSet]) do
+    for _,v in pairs(self.db.char.sets[self.db.char.currentSet]) do
         if v['itemId'] == itemData['itemId'] then
             itemExists = true
         end
@@ -335,14 +335,14 @@ function InventorySets:GetAddItemPanel(uiParent)
 
     -- @Cleanup: This should be combined into a single function
     dropItemPanel:SetScript('OnReceiveDrag', function()
-        local t, id, info = GetCursorInfo()
+        local t, id, _ = GetCursorInfo()
 
         if t == 'item' then self:AddItemToSet(id) end
         ClearCursor()
     end)
 
     dropItemPanel:SetScript('OnMouseUp', function()
-        local t, id, info = GetCursorInfo()
+        local t, id, _ = GetCursorInfo()
 
         if t == 'item' then self:AddItemToSet(id) end
         ClearCursor()
@@ -362,7 +362,7 @@ end
 function InventorySets:GetSetDropdownOptions()
     local setOptions = {}
     local setNames = self:GetSetNames()
-    for i, v in ipairs(setNames) do
+    for _, v in ipairs(setNames) do
         tinsert(setOptions, {text = v, value = v})
     end
 
@@ -371,9 +371,9 @@ end
 
 ---@param uiParent Frame
 ---@return Frame
-function InventorySets:GetSetNameDropdown(puiParentarent)
+function InventorySets:GetSetNameDropdown(uiParent)
     local setOptions = self:GetSetDropdownOptions()
-    local initialValue = nil
+    local initialValue
 
     -- If we've got a set selected on initialization then
     -- reflect that as the initial value of the drop down
