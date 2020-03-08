@@ -5,8 +5,9 @@ Cleanup OnInitialize
 
 local LOGO_PATH = 'Interface\\AddOns\\InventorySets\\Artwork\\Logo'
 InventorySets = LibStub('AceAddon-3.0'):NewAddon('InventorySets', 'AceConsole-3.0', 'AceEvent-3.0')
-local StdUi = LibStub('StdUi');
 
+---@type StdUi
+local StdUi = LibStub('StdUi');
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 local ldbIcon = LibStub("LibDBIcon-1.0")
 
@@ -46,7 +47,7 @@ local itemCols = {
     },
     {name = '#', width = 60, align = 'CENTER', index = 'itemCount', format = 'number'},
     {
-        name = 'Min', width = 60, align = 'CENTER', index = 'itemMinimum', format = 'number',
+        name = 'Min', width = 60, align = 'CENTER', index = 'itemMinimum',
         format = function(value, _, _)
             if value == nil then
                 return '-'
