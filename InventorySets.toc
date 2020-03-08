@@ -1,0 +1,23 @@
+## Interface: 80205
+## Title: InventorySets
+## Author: Dgc2002
+## Notes:
+## Version: 1.1
+## SavedVariables: InventorySetsDB
+
+# Libs
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceDB-3.0\AceDB-3.0.xml
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+Libs\AceConsole-3.0\AceConsole-3.0.xml
+Libs\StdUi\StdUi.xml
+
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+# Libs\LibDBIcon-1.0\embeds.xml
+
+# Addon files
+InventorySets.lua
+UI.lua
+Utils.lua
