@@ -1,33 +1,43 @@
-local addonName, addonTable = ...
+local _, addonTable = ...
 InventorySets = addonTable
 
+
+---@param message string
 function InventorySets:say(message)
     DEFAULT_CHAT_FRAME:AddMessage('[InventorySets] ' .. message)
 end
 
+---@param itemId number
+---@return boolean
 function InventorySets:itemIsInInventory(itemId)
     return GetItemCount(itemId) >= 1
 end
 
+---@param itemId number
+---@return table<string, any>
 function InventorySets:getItemDataFromId(itemId)
-    local itemData = {}
-
     local itemCount = GetItemCount(itemId)
     local inInventory = itemCount > 0
-    local itemName, _, _, _, _, _, _, itemStackCount, _, itemIcon, _, _, _, _, _, _, _ = GetItemInfo(itemId)
+    local itemName, _, _, _, _, _, _, _, _, itemIcon, _, _, _, _, _, _, _ = GetItemInfo(itemId)
 
     return {name = itemName, itemId = itemName, icon = itemIcon, isInInventory = inInventory, itemCount = itemCount, removeItem = [[Interface\BUTTONS\UI-Panel-MinimizeButton-Up]]}
 end
 
+---@param itemIds table<number>
+---@return table<number, table<string, any>>
 function InventorySets:getItemDataFromIds(itemIds)
     local itemData = {}
-    for i, itemId in pairs(itemIds) do
+    for _, itemId in pairs(itemIds) do
         tinsert(itemData, self:getItemDataFromId(itemId))
     end
 
     return itemData
 end
 
+
+---@param tbl QuestTag
+---@param indent number
+---@return string
 function InventorySets:tprint(tbl, indent)
     if not indent then indent = 0 end
     local toprint = string.rep(" ", indent) .. "{\r\n"
