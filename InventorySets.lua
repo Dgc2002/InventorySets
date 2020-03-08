@@ -106,6 +106,7 @@ local itemCols = {
 }
 
 ---@param setName string
+---@return boolean
 function InventorySets:CreateNewSet(setName)
     local setNameExists = self:SetExists(setName)
 
@@ -127,6 +128,8 @@ function InventorySets:CreateNewSet(setName)
 
     self.newSetEditBox:ClearFocus()
     self.newSetEditBox:SetText('')
+
+    return true
 end
 
 ---@param setName string
@@ -261,6 +264,8 @@ function InventorySets:OnInitialize()
     StdUi:GlueBelow(onlyMissingCheckbox, st, -150, -5)
 end
 
+---@param uiParent Frame
+---@return Frame
 function InventorySets:GetFilterCheckbox(uiParent)
     local onlyMissingCheckbox = StdUi:Checkbox(uiParent, 'Only show missing items')
 
@@ -319,6 +324,9 @@ function InventorySets:RemoveItemFromSet(itemId)
     end
 end
 
+
+---@param uiParent Frame
+---@return Frame
 function InventorySets:GetAddItemPanel(uiParent)
     local addItemPanel = StdUi:PanelWithTitle(uiParent, 150, 100, 'Add Item')
     local dropItemPanel = StdUi:Panel(uiParent, 50, 50)
@@ -361,7 +369,9 @@ function InventorySets:GetSetDropdownOptions()
     return setOptions
 end
 
-function InventorySets:GetSetNameDropdown(parent)
+---@param uiParent Frame
+---@return Frame
+function InventorySets:GetSetNameDropdown(puiParentarent)
     local setOptions = self:GetSetDropdownOptions()
     local initialValue = nil
 
@@ -371,7 +381,7 @@ function InventorySets:GetSetNameDropdown(parent)
         initialValue = self.db.char.currentSet
     end
 
-    local dropdownMenu = StdUi:Dropdown(parent, 200, 20, setOptions, initialValue)
+    local dropdownMenu = StdUi:Dropdown(uiParent, 200, 20, setOptions, initialValue)
 
     return dropdownMenu
 end
