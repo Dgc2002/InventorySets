@@ -26,7 +26,7 @@ InventorySets.DEFAULT_SETTINGS = {
     }
 }
 
-local itemCols = {
+InventorySets.ITEMCOLS = {
     {name = 'Icon', width = 60, align = 'CENTER', index = 'icon', format = 'icon', sortable = false},
     {
         name = 'Item',
@@ -252,7 +252,7 @@ function InventorySets:OnInitialize()
         data = self.db.char.sets[self.db.char.currentSet]
     end
 
-    local st = InventorySets:getScrollingTable(window, itemCols)
+    local st = InventorySets:getScrollingTable(window, self.ITEMCOLS)
     self.st = st
     st:EnableSelection(false)
     st:SetData(data)
