@@ -76,7 +76,7 @@ local itemCols = {
 
                         widget:ClearFocus()
                         widget:Hide()
-                        tbl:SetData(self.db.char.sets[self.db.char.currentSet])
+                        tbl:SetData(InventorySets.db.char.sets[InventorySets.db.char.currentSet])
                     end)
 
                     eBox:SetScript('OnEscapePressed', function(widget)
@@ -98,8 +98,8 @@ local itemCols = {
         events = {
             OnClick = function(tbl, _, _, rowData, _, _, button)
                 if button == 'LeftButton' then
-                    self:RemoveItemFromSet(rowData['itemId'])
-                    tbl:SetData(self.db.char.sets[self.db.char.currentSet])
+                    InventorySets:RemoveItemFromSet(rowData['itemId'])
+                    tbl:SetData(InventorySets.db.char.sets[InventorySets.db.char.currentSet])
                 end
 
                 return true
