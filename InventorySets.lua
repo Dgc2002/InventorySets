@@ -49,7 +49,7 @@ local itemCols = {
     },
     {name = '#', width = 60, align = 'CENTER', index = 'itemCount', format = 'number'},
     {
-        name = 'Min', width = 60, align = 'CENTER', index = 'itemMinimum',
+        name = 'Min', width = 60, align = 'CENTER', index = 'itemMinimum', sortable = false,
         format = function(value, _, _)
             if value == nil then
                 return '-'
