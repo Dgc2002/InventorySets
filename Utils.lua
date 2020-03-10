@@ -20,7 +20,7 @@ function InventorySets:getItemDataFromId(itemId)
     local inInventory = itemCount > 0
     local itemName, _, _, _, _, _, _, _, _, itemIcon, _, _, _, _, _, _, _ = GetItemInfo(itemId)
 
-    return {name = itemName, itemId = itemName, icon = itemIcon, isInInventory = inInventory, itemCount = itemCount, removeItem = [[Interface\BUTTONS\UI-Panel-MinimizeButton-Up]]}
+    return {name = itemName, itemId = itemId, icon = itemIcon, isInInventory = inInventory, itemCount = itemCount, removeItem = [[Interface\BUTTONS\UI-Panel-MinimizeButton-Up]]}
 end
 
 ---@param itemIds table<number>
