@@ -38,6 +38,7 @@ end
 ---@param tbl QuestTag
 ---@param indent number
 ---@return string
+--- https://stackoverflow.com/a/41943392
 function InventorySets:tprint(tbl, indent)
     if not indent then indent = 0 end
     local toprint = string.rep(" ", indent) .. "{\r\n"
