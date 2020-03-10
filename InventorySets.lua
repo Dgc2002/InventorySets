@@ -254,6 +254,9 @@ function InventorySets:OnInitialize()
     st:EnableSelection(false)
     st:SetData(data)
 
+    -- This should be temporary
+    self:UpdateItemCounts()
+
     local deleteSetBtn = StdUi:Button(window, 100, 24, 'Delete Set')
     StdUi:GlueAfter(deleteSetBtn, newSetBtn, 20, 0)
 
@@ -266,6 +269,10 @@ function InventorySets:OnInitialize()
 
     local onlyMissingCheckbox = self:GetFilterCheckbox(window)
     StdUi:GlueBelow(onlyMissingCheckbox, st, -150, -5)
+
+    self:RegisterEvent('BAG_UPDATE', function()
+        self:UpdateItemCounts()
+    end)
 end
 
 ---@param itemId number
