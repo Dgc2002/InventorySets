@@ -3,8 +3,10 @@
 Cleanup OnInitialize
 ]] --
 
+local addonName, addon = ...
+
 local LOGO_PATH = 'Interface\\AddOns\\InventorySets\\Artwork\\Logo'
-InventorySets = LibStub('AceAddon-3.0'):NewAddon('InventorySets', 'AceConsole-3.0', 'AceEvent-3.0')
+InventorySets = LibStub('AceAddon-3.0'):NewAddon(addon, addonName, 'AceConsole-3.0', 'AceEvent-3.0')
 
 ---@type StdUi
 local StdUi = LibStub('StdUi');
