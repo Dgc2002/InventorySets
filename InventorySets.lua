@@ -100,7 +100,7 @@ InventorySets.ITEMCOLS = {
 }
 
 ---@param setName string
----@return boolean Whether or not the set could be created
+---@return boolean Whether or not a set with the given name could be created
 function InventorySets:CreateNewSet(setName)
     local setNameExists = self:SetExists(setName)
 
@@ -128,6 +128,7 @@ end
 
 ---Deletes a set if it exists
 ---@param setName string
+---@return boolean Whether or not a set with the given name could be deleted
 function InventorySets:DeleteSet(setName)
     local setNameExists = self:SetExists(setName)
 
@@ -140,6 +141,8 @@ function InventorySets:DeleteSet(setName)
 
     local setOptions = self:GetSetDropdownOptions()
     self.dropdownMenu:SetOptions(setOptions)
+
+    return true
 end
 
 ---@param setName string
@@ -158,6 +161,7 @@ function InventorySets:SetExists(setName)
 end
 
 ---@param setName string
+---@return boolean Whether or not a set with the given name could be loaded
 function InventorySets:LoadSet(setName)
     local setNameExists = self:SetExists(setName)
 
@@ -168,6 +172,8 @@ function InventorySets:LoadSet(setName)
     self.db.char.currentSet = setName
     self.st:SetData(self.db.char.sets[self.db.char.currentSet])
     self.st:Update()
+
+    return true
 end
 
 function InventorySets:ClearSetTable()
@@ -307,6 +313,8 @@ function InventorySets:UpdateItemCounts()
     self.st:SetData(itemsData)
 end
 
+
+---@return table
 function InventorySets:GetSetNames()
     local names = {}
 
@@ -315,6 +323,7 @@ function InventorySets:GetSetNames()
     return names
 end
 
+---@return table
 function InventorySets:GetSetDropdownOptions()
     local setOptions = {}
     local setNames = self:GetSetNames()
