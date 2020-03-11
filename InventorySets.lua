@@ -1,9 +1,6 @@
 --[[
     TODO
         Cleanup OnInitialize
-
-    Known Bugs
-        Trying to sort the 'Min' column will throw an error. This is due to StdUi not properly supporting `sortable = false`
 ]] --
 
 local addonName, addon = ...

@@ -287,6 +287,14 @@ local methods = {
 			end
 		end
 
+        -- don't sort if column marked with `sortable = false`
+        if sortBy then
+            local col = self.columns[sortBy]
+            if col.sortable == false then
+                return
+            end
+        end
+
 		if sortBy then
 			TableSort(self.sortTable, function(rowA, rowB)
 				local column = self.columns[sortBy];
