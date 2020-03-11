@@ -35,7 +35,7 @@ function InventorySets:getItemDataFromIds(itemIds)
 end
 
 
----@param tbl QuestTag
+---@param tbl
 ---@param indent number
 ---@return string
 --- https://stackoverflow.com/a/41943392
