@@ -26,11 +26,7 @@ InventorySets.DEFAULT_SETTINGS = {
 InventorySets.ITEMCOLS = {
     {name = 'Icon', width = 60, align = 'CENTER', index = 'icon', format = 'icon', sortable = false},
     {
-        name = 'Item',
-        width = 250,
-        align = 'LEFT',
-        index = 'name',
-        format = 'string',
+        name = 'Item', width = 250, align = 'LEFT', index = 'name', format = 'string',
         color = function(_, _, rowData, _)
             -- @Cleanup: This is pretty sloppy but works
             local rowColor = {r = 1, g = 0, b = 0, a = 1}
@@ -89,12 +85,7 @@ InventorySets.ITEMCOLS = {
         }
     },
     {
-        name = 'X',
-        width = 30,
-        align = 'CENTER',
-        index = 'removeItem',
-        format = 'icon',
-        sortable = false,
+        name = 'X', width = 30, align = 'CENTER', index = 'removeItem', format = 'icon', sortable = false,
         events = {
             OnClick = function(tbl, _, _, rowData, _, _, button)
                 if button == 'LeftButton' then
