@@ -100,7 +100,7 @@ InventorySets.ITEMCOLS = {
 }
 
 ---@param setName string
----@return boolean
+---@return boolean Whether or not the set could be created
 function InventorySets:CreateNewSet(setName)
     local setNameExists = self:SetExists(setName)
 
@@ -143,7 +143,7 @@ function InventorySets:DeleteSet(setName)
 end
 
 ---@param setName string
----@return boolean
+---@return boolean Whether or not a set with the given name exists
 function InventorySets:SetExists(setName)
     local setNames = self:GetSetNames()
     local setNameExists = false
