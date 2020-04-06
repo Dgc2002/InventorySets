@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 11304
 ## Title: InventorySets
 ## Author: Dgc2002
 ## Notes:
