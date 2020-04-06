@@ -202,6 +202,14 @@ function InventorySets:OnInitialize()
         window:Hide()
     end
 
+    window:SetScript('OnHide', function(_)
+        self.db.char.visible = false
+    end)
+
+    window:SetScript('OnShow', function(_)
+        self.db.char.visible = true
+    end)
+
     -- Dropdown Menu containing existing set names
     local dropdownMenu = self:GetSetNameDropdown(window)
     self.dropdownMenu = dropdownMenu
@@ -336,10 +344,8 @@ end
 
 function InventorySets:ToggleMainWindow()
     if self.window:IsVisible() then
-        self.db.char.visible = false
         self.window:Hide()
     else
-        self.db.char.visible = true
         self.window:Show()
     end
 end
